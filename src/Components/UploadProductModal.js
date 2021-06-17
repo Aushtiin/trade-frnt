@@ -64,6 +64,7 @@ const UploadProductModal = (props) => {
                           className,
                           style,
                         })}
+                        key={Math.random()}
                       >
                         <span>{suggestion.description}</span>
                       </div>
