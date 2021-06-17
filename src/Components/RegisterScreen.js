@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState,} from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Row, Col, Button, Container } from 'react-bootstrap'
-import Message from './Message'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng, } from 'react-places-autocomplete';
 import Loader from './Loader'
 import axios from 'axios'
@@ -12,25 +11,25 @@ const RegisterScreen = ({ location, history }) => {
     const [password, setPassword] = useState('')
     const [phone, setPhone] = useState('')
     const [address, setAddress] = useState('')
-    const [message, setMessage] = useState(null)
+    const [loading, setLoading] = useState(false)
     const [coordinates, setCoordinates] = useState({
         lat: null,
         lng: null
     })
 
 
-    // useEffect(() => {
-    //     if (userInfo) {
-    //         history.push(redirect)
-    //     }
-    // }, [history, userInfo, redirect])
-
     const submitHandler = async (e) => {
         e.preventDefault()
+        try{
+        setLoading(true)
         const geoDetails = [coordinates.lat, coordinates.lng]
-        const req = await axios.post(`https://testdepot-app.herokuapp.com/api/users/register`, { fullName, email, phone, password, address, geoDetails })
-        localStorage.setItem('logindetails', JSON.stringify(req))
-        history.push('/')
+        const {data} = await axios.post(`https://testdepot-app.herokuapp.com/api/users/register`, { fullName, email, phone, password, address, geoDetails })
+        localStorage.setItem('logindetails', JSON.stringify(data))
+        history.push('/products')
+        } catch (error){
+            console.error(error)
+            setLoading(false)
+        }
     }
     const handleSelect = async address => {
         const results = await geocodeByAddress(address)
@@ -123,7 +122,7 @@ const RegisterScreen = ({ location, history }) => {
                         </Form.Group>
                     )}
                 </PlacesAutocomplete>
-                <Button type="submit" variant="primary"> Register </Button>
+                <Button type="submit" variant="primary">{loading ? <Loader /> : 'Register'} </Button>
             </Form>
 
             <Row className='py-3'>
