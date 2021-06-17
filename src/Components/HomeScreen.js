@@ -10,7 +10,6 @@ const HomeScreen = () => {
     const [loading, setLoading] = useState(false)
     const [products, setProducts] = useState([])
     const [show, setShow] = useState(false)
-    const [autoComplete, setAutoComplete] = useState(null)
     const [address, setAddress] = useState('')
     const [name, setName] = useState('')
     const [fileUrl, setFileUrl] = useState(null)
@@ -19,6 +18,7 @@ const HomeScreen = () => {
         lat: null,
         lng: null
     })
+    const [subLoading, setSubLoading] = useState(false)
 
 
     useEffect(() => {
@@ -48,6 +48,7 @@ const HomeScreen = () => {
 
     const submit = async (e) => {
         e.preventDefault();
+        setSubLoading(true)
         const config = {
             headers: {
                 'Content-Type': 'application/json',
@@ -57,6 +58,8 @@ const HomeScreen = () => {
         const geoDetails = [coordinates.lat, coordinates.lng]
         await axios.post(`https://testdepot-app.herokuapp.com/api/products/new`, {name, address, distanceInMeters, image: fileUrl, geoDetails}, config)
         setShow(false)
+        setSubLoading(false)
+        getProducts()
     }
     return (
         <Container>
@@ -74,6 +77,7 @@ const HomeScreen = () => {
             distanceInMeters={distanceInMeters}
             setDistanceInMeters={setDistanceInMeters}
             submit={submit}
+            subLoading={subLoading}
             />
             {loading ?
                 <Loader /> :

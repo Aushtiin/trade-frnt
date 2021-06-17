@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 import { app } from '../base'
 import PlacesAutocomplete from 'react-places-autocomplete';
+import Loader from './Loader'
 
 const UploadProductModal = (props) => {
   const onFileChange = async (e) => {
@@ -45,7 +46,6 @@ const UploadProductModal = (props) => {
               <Form.Group>
                 <Form.Label>Address</Form.Label>
                 <Form.Control {...getInputProps({
-                  // placeholder: 'Search Places ...',
                   className: 'location-search-input',
                 })} />
                 <div className="autocomplete-dropdown-container">
@@ -74,7 +74,7 @@ const UploadProductModal = (props) => {
               </Form.Group>
             )}
           </PlacesAutocomplete>
-          <Button type='submit'>Submit</Button>
+          <Button type='submit'>{props.subLoading ? <Loader /> : 'Submit'}</Button>
         </Form>
       </Modal.Body>
       <Modal.Footer>

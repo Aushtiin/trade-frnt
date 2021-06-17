@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Form, ListGroup, Button } from 'react-bootstrap'
 import axios from 'axios'
 
-const Comment = ({comment,productId}) => {
+const Comment = ({comment,productId, getComments}) => {
   const [reply, setReply] = useState(false)
   const [showReplies, setShowReplies] = useState(false)
   const [body, setBody] = useState('')
@@ -17,6 +17,9 @@ const Comment = ({comment,productId}) => {
       }
   }
     await axios.post(`https://testdepot-app.herokuapp.com/api/products/comment`, {body, commentId: comment._id, productId}, config)
+    setReply(false)
+    setBody('')
+    getComments(productId)
   }
 
   return (

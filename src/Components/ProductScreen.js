@@ -42,6 +42,7 @@ const ProductScreen = ({ history, match }) => {
         }
         await axios.post(`https://testdepot-app.herokuapp.com/api/products/comment`, {body, productId}, config)
         setBody('')
+        getComments(productId)
     }
     return (
         <Container>
@@ -71,7 +72,7 @@ const ProductScreen = ({ history, match }) => {
                         <Card>
                             <ListGroup variant='flush'>
                                 {comments.map((comment, ind) => (
-                                    <Comment key={ind} productId={match.params.id} comment={comment} value={text} setValue={setText} />
+                                    <Comment getComments={getComments} key={ind} productId={match.params.id} comment={comment} value={text} setValue={setText} />
                                 ))}
                             </ListGroup>
                         </Card>
