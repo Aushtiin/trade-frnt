@@ -13,6 +13,10 @@ const RegisterScreen = ({ location, history }) => {
     const [phone, setPhone] = useState('')
     const [address, setAddress] = useState('')
     const [message, setMessage] = useState(null)
+    const [coordinates, setCoordinates] = useState({
+        lat: null,
+        lng: null
+    })
 
 
     // useEffect(() => {
@@ -23,13 +27,17 @@ const RegisterScreen = ({ location, history }) => {
 
     const submitHandler = async (e) => {
         e.preventDefault()
-        await axios.post(`https://testdepot-app.herokuapp.com/api/users/register`, { fullName, email, phone, password, address })
+        const geoDetails = [coordinates.lat, coordinates.lng]
+        const req = await axios.post(`https://testdepot-app.herokuapp.com/api/users/register`, { fullName, email, phone, password, address, geoDetails })
+        console.log(req.data.data.token)
+        localStorage.setItem('logindetails', JSON.stringify(req))
+        history.push('/login')
     }
-    const handleSelect = address => {
-        geocodeByAddress(address)
-            .then(results => getLatLng(results[0]))
-            .then(({ lat, lng }) => console.log('Success', lat, lng))
-            .catch(error => console.error('Error', error));
+    const handleSelect = async address => {
+        const results = await geocodeByAddress(address)
+        const latLng = await getLatLng(results[0])
+        setAddress(address)
+        setCoordinates(latLng)
     };
 
     const handleChange = address => {
@@ -72,7 +80,7 @@ const RegisterScreen = ({ location, history }) => {
                 <Form.Group>
                     <Form.Label>Phone</Form.Label>
                     <Form.Control
-                        type='password'
+                        type='text'
                         placeholder='Enter Phone'
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}

@@ -15,7 +15,12 @@ const HomeScreen = () => {
     const [name, setName] = useState('')
     const [fileUrl, setFileUrl] = useState(null)
     const [distanceInMeters, setDistanceInMeters] = useState(Number)
+    const [coordinates, setCoordinates] = useState({
+        lat: null,
+        lng: null
+    })
 
+    console.log(coordinates)
 
     useEffect(() => {
         getProducts()
@@ -37,15 +42,11 @@ const HomeScreen = () => {
         setLoading(false)
     }
 
-    const handleSelect = address => {
-        geocodeByAddress(address)
-            .then(results => getLatLng(results[0]))
-            .then(latLng => console.log('Success', latLng))
-            .catch(error => console.error('Error', error));
-    };
-
-    const handleChange = address => {
-        setAddress(address);
+    const handleSelect = async address => {
+        const results = await geocodeByAddress(address)
+        const latLng = await getLatLng(results[0])
+        setAddress(address)
+        setCoordinates(latLng)
     };
 
     const submit = async (e) => {
@@ -56,7 +57,8 @@ const HomeScreen = () => {
                 Authorization: `Bearer ${details.data.token}`
             }
         }
-        await axios.post(`https://testdepot-app.herokuapp.com/api/products/new`, {name, address, distanceInMeters, image: fileUrl, }, config)
+        const geoDetails = [coordinates.lat, coordinates.lng]
+        await axios.post(`https://testdepot-app.herokuapp.com/api/products/new`, {name, address, distanceInMeters, image: fileUrl, geoDetails}, config)
         setShow(false)
     }
     return (
@@ -69,7 +71,7 @@ const HomeScreen = () => {
             setFileUrl={setFileUrl} 
             address={address} 
             handleSelect={handleSelect} 
-            handleChange={handleChange} 
+            handleChange={setAddress} 
             show={show} 
             setShow={setShow}
             distanceInMeters={distanceInMeters}
