@@ -17,7 +17,6 @@ const LoginScreen = ({ history }) => {
     const { data } = await axios.post(`https://testdepot-app.herokuapp.com/api/users/login`, { email, password }, config)
     localStorage.setItem('logindetails', JSON.stringify(data))
     history.push('/products')
-    console.log(data)
   }
   return (
     <Container className=''>

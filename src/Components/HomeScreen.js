@@ -20,7 +20,6 @@ const HomeScreen = () => {
         lng: null
     })
 
-    console.log(coordinates)
 
     useEffect(() => {
         getProducts()
@@ -29,7 +28,6 @@ const HomeScreen = () => {
     const getProducts = async () => {
         setLoading(true)
         
-        // console.log(details.data.token)
         const config = {
             headers: {
                 'Content-Type': 'application/json',
@@ -37,7 +35,6 @@ const HomeScreen = () => {
             }
         }
         const { data } = await axios.get(`https://testdepot-app.herokuapp.com/api/products`, config)
-        console.log(data)
         setProducts(data.data)
         setLoading(false)
     }

@@ -29,7 +29,6 @@ const ProductScreen = ({ history, match }) => {
 
     const getComments = async (id) => {
         const { data } = await axios.get(`https://testdepot-app.herokuapp.com/api/products/comments/${id}`)
-        console.log(data.data)
         setComments(data.data)
     }
 

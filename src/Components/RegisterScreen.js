@@ -29,9 +29,8 @@ const RegisterScreen = ({ location, history }) => {
         e.preventDefault()
         const geoDetails = [coordinates.lat, coordinates.lng]
         const req = await axios.post(`https://testdepot-app.herokuapp.com/api/users/register`, { fullName, email, phone, password, address, geoDetails })
-        console.log(req.data.data.token)
         localStorage.setItem('logindetails', JSON.stringify(req))
-        history.push('/login')
+        history.push('/')
     }
     const handleSelect = async address => {
         const results = await geocodeByAddress(address)
