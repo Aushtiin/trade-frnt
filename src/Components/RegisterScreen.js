@@ -49,7 +49,6 @@ const RegisterScreen = ({ location, history }) => {
                     <Form.Label>Full Name</Form.Label>
                     <Form.Control
                         type='name'
-                        placeholder='Enter Full Name'
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
                     />
@@ -59,7 +58,6 @@ const RegisterScreen = ({ location, history }) => {
                     <Form.Label>Email Address</Form.Label>
                     <Form.Control
                         type='email'
-                        placeholder='Enter Email'
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
@@ -69,7 +67,6 @@ const RegisterScreen = ({ location, history }) => {
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                         type='password'
-                        placeholder='Enter Password'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
@@ -79,7 +76,6 @@ const RegisterScreen = ({ location, history }) => {
                     <Form.Label>Phone</Form.Label>
                     <Form.Control
                         type='text'
-                        placeholder='Enter Phone'
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                     />
@@ -94,7 +90,7 @@ const RegisterScreen = ({ location, history }) => {
                         <Form.Group>
                             <Form.Label>Address</Form.Label>
                             <Form.Control {...getInputProps({
-                                placeholder: 'Enter Address',
+                                // placeholder: 'Enter Address',
                                 className: 'location-search-input',
                             })} />
                             <div className="autocomplete-dropdown-container">

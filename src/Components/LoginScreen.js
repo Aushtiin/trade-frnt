@@ -2,13 +2,16 @@ import React, { useState } from 'react'
 import { Form, Row, Col, Container, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import Loader from './Loader'
 
 const LoginScreen = ({ history }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
 
   async function handleSubmit(e) {
     e.preventDefault()
+    setLoading(true)
     const config = {
       headers: {
         'Content-Type': 'application/json'
@@ -16,6 +19,7 @@ const LoginScreen = ({ history }) => {
     }
     const { data } = await axios.post(`https://testdepot-app.herokuapp.com/api/users/login`, { email, password }, config)
     localStorage.setItem('logindetails', JSON.stringify(data))
+    setLoading(false)
     history.push('/products')
   }
   return (
@@ -30,7 +34,7 @@ const LoginScreen = ({ history }) => {
           <Form.Label>Password</Form.Label>
           <Form.Control type='text' value={password} onChange={(e) => setPassword(e.target.value)} />
         </Form.Group>
-        <Button className='my-3' type='submit'>Log In</Button>
+        <Button className='my-3' type='submit'>{loading ? <Loader/> :'Log In'}</Button>
       </Form>
       <Row className='py-3'>
         <Col>
