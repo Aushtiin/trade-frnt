@@ -66,21 +66,21 @@ const ProductScreen = ({ history, match }) => {
                         <Image src={product.image} alt={product.name} fluid />
                     </Col>
                     <Col md={4}>
-                        <h3>{product.name}</h3>
+                        <h3 className='my-3'>{product.name}</h3>
                         <Form onSubmit={submit}>
-                            <h5>Leave a comment</h5>
                             <Form.Group>
-                                <Form.Label>Your Comment</Form.Label>
+                                <Form.Label>Leave a comment</Form.Label>
                                 <Form.Control value={body} type='text' onChange={e => setBody(e.target.value)} />
                             </Form.Group>
-                            <Button type='submit'>post</Button>
+                            <Button className='mb-3' type='submit'>post</Button>
                         </Form>
                     </Col>
                     <Col md={5}>
                         <h6>Comments</h6>
-                        <Card>
+                        <Card className='my-3'>
                             <ListGroup variant='flush'>
-                                {comments.map((comment, ind) => (
+                                { comments.length < 1 ? <Message>No comments yet</Message> :
+                                comments.map((comment, ind) => (
                                     <Comment
                                         getComments={getComments}
                                         key={ind}
