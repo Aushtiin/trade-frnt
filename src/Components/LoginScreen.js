@@ -26,7 +26,7 @@ const LoginScreen = ({ history }) => {
     history.push('/products')
   } catch (e) {
     console.error(e)
-    setError('An error occured please.')
+    setError('An error occured please try again')
     setLoading(false)
   }
   }

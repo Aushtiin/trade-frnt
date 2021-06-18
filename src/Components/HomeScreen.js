@@ -7,7 +7,7 @@ import UploadProductModal from './UploadProductModal';
 import Message from './Message'
 import { geocodeByAddress, getLatLng, } from 'react-places-autocomplete';
 
-const HomeScreen = () => {
+const HomeScreen = ({history}) => {
     const [loading, setLoading] = useState(false)
     const [products, setProducts] = useState([])
     const [show, setShow] = useState(false)
@@ -71,10 +71,19 @@ const HomeScreen = () => {
         setError('An error occured, please try again')
     }
     }
+
+    const logout = e => {
+        e.preventDefault()
+        localStorage.removeItem('logindetails')
+        history.push('/')
+    }
     return (
         <Container>
             <h1 className='my-3'>Products Close to you</h1>
+            <div style={{display: 'flex', flexDirection: 'row'}}>
             <Button className='mb-3' onClick={() => setShow(true)}>Upload Product</Button>
+            <Button className='mb-3 ml-auto' onClick={logout}>Logout</Button>
+            </div>
             <UploadProductModal 
             name={name} 
             setName={setName} 
