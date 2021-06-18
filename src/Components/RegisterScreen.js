@@ -4,6 +4,7 @@ import { Form, Row, Col, Button, Container } from 'react-bootstrap'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng, } from 'react-places-autocomplete';
 import Loader from './Loader'
 import axios from 'axios'
+import Message from './Message'
 
 const RegisterScreen = ({ location, history }) => {
     const [fullName, setFullName] = useState('')
@@ -16,11 +17,12 @@ const RegisterScreen = ({ location, history }) => {
         lat: null,
         lng: null
     })
+    const [error, setError] = useState('')
 
 
     const submitHandler = async (e) => {
         e.preventDefault()
-        try{
+        try {
         setLoading(true)
         const geoDetails = [coordinates.lat, coordinates.lng]
         const {data} = await axios.post(`https://testdepot-app.herokuapp.com/api/users/register`, { fullName, email, phone, password, address, geoDetails })
@@ -28,6 +30,7 @@ const RegisterScreen = ({ location, history }) => {
         history.push('/products')
         } catch (error){
             console.error(error)
+            setError('Something went wrong please try again')
             setLoading(false)
         }
     }
@@ -43,7 +46,8 @@ const RegisterScreen = ({ location, history }) => {
     };
     return (
         <Container>
-            <h1>Sign Up</h1>
+            <h1 className='my-3'>Sign Up</h1>
+            {error && <Message>{error}</Message>}
             <Form onSubmit={submitHandler}>
                 <Form.Group>
                     <Form.Label>Full Name</Form.Label>

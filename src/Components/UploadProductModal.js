@@ -3,6 +3,7 @@ import { Modal, Form, Button } from 'react-bootstrap'
 import { app } from '../base'
 import PlacesAutocomplete from 'react-places-autocomplete';
 import Loader from './Loader'
+import Message from './Message'
 
 const UploadProductModal = (props) => {
   const onFileChange = async (e) => {
@@ -21,6 +22,7 @@ const UploadProductModal = (props) => {
       </Modal.Header>
 
       <Modal.Body>
+        {props.error && <Message>{props.error}</Message>}
         <Form onSubmit={props.submit}>
           <Form.Group>
             <Form.Label>Product Name</Form.Label>

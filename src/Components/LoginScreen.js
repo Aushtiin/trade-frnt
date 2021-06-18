@@ -24,7 +24,7 @@ const LoginScreen = ({ history }) => {
   }
   return (
     <Container className=''>
-      <h1>Sign In</h1>
+      <h1 className='my-3'>Sign In</h1>
       <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Label>Email</Form.Label>
@@ -32,7 +32,7 @@ const LoginScreen = ({ history }) => {
         </Form.Group>
         <Form.Group>
           <Form.Label>Password</Form.Label>
-          <Form.Control type='text' value={password} onChange={(e) => setPassword(e.target.value)} />
+          <Form.Control type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
         </Form.Group>
         <Button className='my-3' type='submit'>{loading ? <Loader/> :'Log In'}</Button>
       </Form>

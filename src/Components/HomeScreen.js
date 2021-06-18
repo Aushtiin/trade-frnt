@@ -4,6 +4,7 @@ import Product from './Product'
 import Loader from './Loader'
 import axios from 'axios'
 import UploadProductModal from './UploadProductModal';
+import Message from './Message'
 import { geocodeByAddress, getLatLng, } from 'react-places-autocomplete';
 
 const HomeScreen = () => {
@@ -19,10 +20,12 @@ const HomeScreen = () => {
         lng: null
     })
     const [subLoading, setSubLoading] = useState(false)
+    const [error, setError] = useState('')
 
 
     useEffect(() => {
         getProducts()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ ])
     const details = localStorage.getItem('logindetails') ? JSON.parse(localStorage.getItem('logindetails')) : null
     const getProducts = async () => {
@@ -47,6 +50,7 @@ const HomeScreen = () => {
     };
 
     const submit = async (e) => {
+        try{
         e.preventDefault();
         setSubLoading(true)
         const config = {
@@ -61,11 +65,16 @@ const HomeScreen = () => {
         setSubLoading(false)
         getProducts()
         e.target.reset()
+    } catch (e) {
+        console.log(e)
+        setSubLoading(false)
+        setError('An error occured, please try again')
+    }
     }
     return (
         <Container>
-            <h1>Products Close to you</h1>
-            <Button onClick={() => setShow(true)}>Upload Product</Button>
+            <h1 className='my-3'>Products Close to you</h1>
+            <Button className='mb-3' onClick={() => setShow(true)}>Upload Product</Button>
             <UploadProductModal 
             name={name} 
             setName={setName} 
@@ -79,9 +88,12 @@ const HomeScreen = () => {
             setDistanceInMeters={setDistanceInMeters}
             submit={submit}
             subLoading={subLoading}
+            error={error}
             />
             {loading ?
                 <Loader /> :
+                products.length < 1 ?
+                <Message>{`There are no products around you.`}</Message> :
                 <Row>
                     {products.map((product, ind) => (
                         <Col key={ind} sm={12} md={6} lg={4} xl={3} >

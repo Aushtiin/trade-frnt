@@ -4,6 +4,7 @@ import { Row, Col, Image, ListGroup, Card, Button, Form, Container } from 'react
 import Loader from './Loader'
 import axios from 'axios';
 import Comment from './Comment';
+import Message from './Message'
 
 const ProductScreen = ({ history, match }) => {
     const [loading, setLoading] = useState(false)
@@ -11,20 +12,28 @@ const ProductScreen = ({ history, match }) => {
     const [comments, setComments] = useState([])
     const [text, setText] = useState('')
     const [body, setBody] = useState('')
+    const [error, setError] = useState('')
 
     useEffect(() => {
         getProduct(match.params.id)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match])
 
     const productId = match.params.id
     const details = localStorage.getItem('logindetails') ? JSON.parse(localStorage.getItem('logindetails')) : null
 
     const getProduct = async (id) => {
-        setLoading(true)
-        const { data } = await axios.get(`https://testdepot-app.herokuapp.com/api/products/${id}`)
-        getComments(id)
-        setLoading(false)
-        setProduct(data.data)
+        try {
+            setLoading(true)
+            const { data } = await axios.get(`https://testdepot-app.herokuapp.com/api/products/${id}`)
+            getComments(id)
+            setLoading(false)
+            setProduct(data.data)
+        } catch (e) {
+            console.error(e)
+            setError('An error occured')
+            setLoading(false)
+        }
     }
 
     const getComments = async (id) => {
@@ -46,10 +55,10 @@ const ProductScreen = ({ history, match }) => {
     }
     return (
         <Container>
-            <Link className="btn btn-light" to="/products">
+            <Link className="btn btn-light my-3" to="/products">
                 Go Back
             </Link>
-
+            {error && <Message>{error}</Message>}
             {loading ?
                 <Loader /> :
                 <Row>
