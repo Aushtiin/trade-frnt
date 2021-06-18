@@ -60,6 +60,7 @@ const HomeScreen = () => {
         setShow(false)
         setSubLoading(false)
         getProducts()
+        e.target.reset()
     }
     return (
         <Container>

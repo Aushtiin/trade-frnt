@@ -9,7 +9,7 @@ const ProductScreen = ({ history, match }) => {
     const [loading, setLoading] = useState(false)
     const [product, setProduct] = useState({})
     const [comments, setComments] = useState([])
-    const [ text, setText ] = useState('')
+    const [text, setText] = useState('')
     const [body, setBody] = useState('')
 
     useEffect(() => {
@@ -32,7 +32,7 @@ const ProductScreen = ({ history, match }) => {
         setComments(data.data)
     }
 
-    const submit =async e => {
+    const submit = async e => {
         e.preventDefault()
         const config = {
             headers: {
@@ -40,7 +40,7 @@ const ProductScreen = ({ history, match }) => {
                 Authorization: `Bearer ${details.data.token}`
             }
         }
-        await axios.post(`https://testdepot-app.herokuapp.com/api/products/comment`, {body, productId}, config)
+        await axios.post(`https://testdepot-app.herokuapp.com/api/products/comment`, { body, productId }, config)
         setBody('')
         getComments(productId)
     }
@@ -72,7 +72,14 @@ const ProductScreen = ({ history, match }) => {
                         <Card>
                             <ListGroup variant='flush'>
                                 {comments.map((comment, ind) => (
-                                    <Comment getComments={getComments} key={ind} productId={match.params.id} comment={comment} value={text} setValue={setText} />
+                                    <Comment
+                                        getComments={getComments}
+                                        key={ind}
+                                        productId={match.params.id}
+                                        comment={comment}
+                                        value={text}
+                                        setValue={setText}
+                                    />
                                 ))}
                             </ListGroup>
                         </Card>
